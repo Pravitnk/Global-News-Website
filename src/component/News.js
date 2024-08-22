@@ -15,25 +15,27 @@ const News = (props) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const upadateNews = async () => {
+  const updateNews = async () => {
     props.setProgress(5);
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
-    // setState({ loading: true });
     setloading(true);
-    let data = await fetch(url);
-    props.setProgress(30);
-    let parsedata = await data.json();
-    props.setProgress(65);
-    console.log(parsedata);
-    setarticles(parsedata.articles);
-    settotalResults(parsedata.totalResults);
+    try {
+      let data = await fetch(url);
+      props.setProgress(30);
+      let parsedData = await data.json();
+      props.setProgress(65);
+      setarticles(parsedData.articles);
+      settotalResults(parsedData.totalResults);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+    }
     setloading(false);
-
     props.setProgress(100);
   };
+
   useEffect(() => {
     document.title = ` News ${capitalized(props.category)}`;
-    upadateNews();
+    updateNews();
     // eslint-disable-next-line
   }, []);
 
@@ -44,12 +46,14 @@ const News = (props) => {
       page + 1
     }&pageSize=${props.pagesize}`;
     setpage(page + 1);
-    // setState({ loading: true });
-    let data = await fetch(url);
-    let parsedata = await data.json();
-    console.log(parsedata);
-    setarticles(articles.concat(parsedata.articles));
-    settotalResults(parsedata.totalResults);
+    try {
+      let data = await fetch(url);
+      let parsedData = await data.json();
+      setarticles(articles.concat(parsedData.articles));
+      settotalResults(parsedData.totalResults);
+    } catch (error) {
+      console.error("Error fetching more news:", error);
+    }
   };
 
   console.log("render");
