@@ -65,29 +65,30 @@ const News = (props) => {
       <InfiniteScroll
         dataLength={articles ? articles.length : 0}
         next={fetchMoreData}
-        hasMore={articles.length !== totalResults}
+        hasMore={totalResults ? articles.length < totalResults : false}
         loader={<h4>Loading...</h4>}
       >
         <div className="container">
           <div className="row my-6">
-            {articles.map((element) => {
-              return (
-                <div className="col-md-4" key={element.url}>
-                  <NewsItem
-                    title={element.title ? element.title.slice(0, 45) : ""}
-                    discription={
-                      element.description
-                        ? element.description.slice(0, 88)
-                        : ""
-                    }
-                    imgurl={element.urlToImage}
-                    newsurl={element.url}
-                    author={element.author}
-                    date={element.publishedAt}
-                  />
-                </div>
-              );
-            })}
+            {articles &&
+              articles.map((element) => {
+                return (
+                  <div className="col-md-4" key={element.url}>
+                    <NewsItem
+                      title={element.title ? element.title.slice(0, 45) : ""}
+                      discription={
+                        element.description
+                          ? element.description.slice(0, 88)
+                          : ""
+                      }
+                      imgurl={element.urlToImage}
+                      newsurl={element.url}
+                      author={element.author}
+                      date={element.publishedAt}
+                    />
+                  </div>
+                );
+              })}
           </div>
         </div>
       </InfiniteScroll>
