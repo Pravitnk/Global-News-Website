@@ -19,7 +19,8 @@ const News = (props) => {
     props.setProgress(5);
 
     // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
-    const apiKey = process.env.REACT_APP_NEWS_API_KEY;
+    // const apiKey = process.env.REACT_APP_NEWS_API_KEY;
+    const apiKey = "a5ead47555cd4a42b62262dfb23295f3";
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page}&pageSize=${props.pagesize}`;
     setloading(true);
     try {
