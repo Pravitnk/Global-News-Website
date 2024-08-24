@@ -39,13 +39,16 @@ const News = (props) => {
     setloading(true);
 
     try {
-      let response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          // Include any additional headers required
-        },
-      });
+      let response = await fetch(
+        url
+        //   , {
+        //   method: "GET",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     // Include any additional headers required
+        //   },
+        // }
+      );
 
       props.setProgress(30);
 
