@@ -15,20 +15,52 @@ const News = (props) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  // const updateNews = async () => {
+  //   props.setProgress(5);
+  //   const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
+  //   setloading(true);
+  //   try {
+  //     let data = await fetch(url);
+  //     props.setProgress(30);
+  //     let parsedData = await data.json();
+  //     props.setProgress(65);
+  //     setarticles(parsedData.articles);
+  //     settotalResults(parsedData.totalResults);
+  //   } catch (error) {
+  //     console.error("Error fetching news:", error);
+  //   }
+  //   setloading(false);
+  //   props.setProgress(100);
+  // };
+
   const updateNews = async () => {
     props.setProgress(5);
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}&page=${page}&pageSize=${props.pagesize}`;
     setloading(true);
+
     try {
-      let data = await fetch(url);
+      let response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Include any additional headers required
+        },
+      });
+
       props.setProgress(30);
-      let parsedData = await data.json();
-      props.setProgress(65);
-      setarticles(parsedData.articles);
-      settotalResults(parsedData.totalResults);
+
+      if (response.ok) {
+        let parsedData = await response.json();
+        props.setProgress(65);
+        setarticles(parsedData.articles);
+        settotalResults(parsedData.totalResults);
+      } else {
+        console.error("Error fetching news:", response.statusText);
+      }
     } catch (error) {
       console.error("Error fetching news:", error);
     }
+
     setloading(false);
     props.setProgress(100);
   };
