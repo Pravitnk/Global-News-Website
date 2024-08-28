@@ -37,18 +37,14 @@ const News = (props) => {
   const updateNews = async () => {
     props.setProgress(5);
 
-    const apiKey = "a5ead47555cd4a42b62262dfb23295f3";
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${apiKey}&page=${page}&pageSize=${props.pagesize}`;
+    // const apiKey = "a5ead47555cd4a42b62262dfb23295f3";
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
 
     setloading(true);
 
     try {
       let response = await fetch(url, {
         method: "GET",
-        // headers: {
-        //   "Content-Type": "application/json",
-        //   // Include any additional headers required
-        // },
       });
 
       props.setProgress(30);
@@ -59,7 +55,12 @@ const News = (props) => {
         setarticles(parsedData.articles);
         settotalResults(parsedData.totalResults);
       } else {
-        console.error("Error fetching news:", response.statusText);
+        console.error(
+          "Error fetching news:",
+          response.status,
+          response.statusText
+        );
+        console.error("Full response:", response);
       }
     } catch (error) {
       console.error("Error fetching news:", error);
