@@ -35,7 +35,7 @@ const App = () => {
                 setProgress={setProgress}
                 key="general"
                 pagesize={pagesize}
-                country="in"
+                country="us"
                 category="general"
               />
             }
@@ -50,7 +50,7 @@ const App = () => {
                 setProgress={setProgress}
                 key="business"
                 pagesize={pagesize}
-                country="in"
+                country="us"
                 category="business"
               />
             }
@@ -65,7 +65,7 @@ const App = () => {
                 setProgress={setProgress}
                 key="entertainment"
                 pagesize={pagesize}
-                country="in"
+                country="us"
                 category="entertainment"
               />
             }
@@ -80,7 +80,7 @@ const App = () => {
                 setProgress={setProgress}
                 key="health"
                 pagesize={pagesize}
-                country="in"
+                country="us"
                 category="health"
               />
             }
@@ -95,7 +95,7 @@ const App = () => {
                 setProgress={setProgress}
                 key="science"
                 pagesize={pagesize}
-                country="in"
+                country="us"
                 category="science"
               />
             }
@@ -110,7 +110,7 @@ const App = () => {
                 setProgress={setProgress}
                 key="sports"
                 pagesize={pagesize}
-                country="in"
+                country="us"
                 category="sports"
               />
             }
@@ -125,7 +125,7 @@ const App = () => {
                 setProgress={setProgress}
                 key="technology"
                 pagesize={pagesize}
-                country="in"
+                country="us"
                 category="technology"
               />
             }

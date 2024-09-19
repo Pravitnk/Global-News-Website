@@ -2,6 +2,7 @@ import React from "react";
 
 const NewsItem = (props) => {
   let { title, discription, imgurl, newsurl, author, date } = props;
+
   return (
     <div>
       <div className="card my-4" style={{ width: "18rem" }}>
@@ -15,15 +16,14 @@ const NewsItem = (props) => {
               : imgurl
           }
           className="card-img-top"
-          alt="..."
+          alt={title || "News image"}
         />
         <div className="card-body">
           <h5 className="card-title">{title}...</h5>
           <p className="card-text">{discription}...</p>
           <p className="card-text">
             <small className="text-muted">
-              By {!author ? "Unknown" : author} on{" "}
-              {new Date(date).toGMTString()}
+              By {author ? author : "Unknown"} on {new Date(date).toGMTString()}
             </small>
           </p>
           <a
