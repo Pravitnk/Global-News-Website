@@ -17,9 +17,18 @@ const News = (props) => {
 
   const updateNews = async () => {
     props.setProgress(10);
+    // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
+
     setloading(true);
-    let data = await fetch(url);
+    // let data = await fetch(url);
+    let data = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
     props.setProgress(30);
     let parsedData = await data.json();
     props.setProgress(70);
@@ -27,11 +36,6 @@ const News = (props) => {
     settotalResults(parsedData.totalResults);
     setloading(false);
     props.setProgress(100);
-    console.log(parsedData);
-    console.log(parsedData.articles);
-    console.log("Country:", props.country);
-    console.log("Category:", props.category);
-    console.log("API URL:", url);
   };
 
   useEffect(() => {
@@ -41,10 +45,20 @@ const News = (props) => {
   }, []);
 
   const fetchMoreData = async () => {
+    // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
+
     setpage(page + 1);
     try {
-      let data = await fetch(url);
+      // let data = await fetch(url);
+      let data = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+
       let parsedData = await data.json();
       setarticles(articles.concat(parsedData.articles));
       settotalResults(parsedData.totalResults);
