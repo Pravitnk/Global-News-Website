@@ -17,11 +17,26 @@ const News = (props) => {
 
   const updateNews = async () => {
     props.setProgress(10);
-    // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
+
+    //GET https://newsapi.org/v2/top-headlines/sources?apiKey=API_KEY
 
     setloading(true);
     let data = await fetch(url);
+
+    if (data.status === 426) {
+      // Check for Upgrade header in response
+      const upgradeProtocol = data.headers.get("Upgrade");
+      if (upgradeProtocol) {
+        console.warn("Upgrade required to protocol:", upgradeProtocol);
+        // Handle upgrade logic based on protocol (e.g., switch to WebSocket)
+      } else {
+        console.error("Upgrade required, but protocol not specified");
+      }
+    } else {
+      // Process successful response
+      console.log("Response data:", data);
+    }
 
     props.setProgress(30);
     let parsedData = await data.json();
@@ -40,7 +55,6 @@ const News = (props) => {
 
   const fetchMoreData = async () => {
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
-    // const url = `https://cors-anywhere.herokuapp.com/https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
 
     setpage(page + 1);
     try {
