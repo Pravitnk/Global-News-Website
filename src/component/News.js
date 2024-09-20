@@ -15,36 +15,69 @@ const News = (props) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  // const updateNews = async () => {
+  //   props.setProgress(10);
+  //   const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
+
+  //   //GET https://newsapi.org/v2/top-headlines/sources?apiKey=API_KEY
+
+  //   setloading(true);
+  //   let data = await fetch(url);
+
+  //   if (data.status === 426) {
+  //     // Check for Upgrade header in response
+  //     const upgradeProtocol = data.headers.get("Upgrade");
+  //     if (upgradeProtocol) {
+  //       console.warn("Upgrade required to protocol:", upgradeProtocol);
+  //       // Handle upgrade logic based on protocol (e.g., switch to WebSocket)
+  //     } else {
+  //       console.error("Upgrade required, but protocol not specified");
+  //     }
+  //   } else {
+  //     // Process successful response
+  //     console.log("Response data:", data);
+  //   }
+
+  //   props.setProgress(30);
+  //   let parsedData = await data.json();
+  //   props.setProgress(70);
+  //   setarticles(parsedData.articles);
+  //   settotalResults(parsedData.totalResults);
+  //   setloading(false);
+  //   props.setProgress(100);
+  // };
+
   const updateNews = async () => {
     props.setProgress(10);
     const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=a5ead47555cd4a42b62262dfb23295f3&page=${page}&pageSize=${props.pagesize}`;
 
-    //GET https://newsapi.org/v2/top-headlines/sources?apiKey=API_KEY
-
     setloading(true);
-    let data = await fetch(url);
 
-    if (data.status === 426) {
-      // Check for Upgrade header in response
-      const upgradeProtocol = data.headers.get("Upgrade");
-      if (upgradeProtocol) {
-        console.warn("Upgrade required to protocol:", upgradeProtocol);
-        // Handle upgrade logic based on protocol (e.g., switch to WebSocket)
+    try {
+      let response = await fetch(url);
+
+      if (response.status === 426) {
+        console.error(
+          "Error 426: Upgrade required, but protocol not specified"
+        );
+        // You can display an error message or take further action here
+      } else if (!response.ok) {
+        console.error(`Error: ${response.status} - ${response.statusText}`);
+        // Handle other non-200 HTTP status codes
       } else {
-        console.error("Upgrade required, but protocol not specified");
+        // Process successful response
+        let parsedData = await response.json();
+        setarticles(parsedData.articles);
+        settotalResults(parsedData.totalResults);
+        console.log("Response data:", parsedData);
       }
-    } else {
-      // Process successful response
-      console.log("Response data:", data);
-    }
 
-    props.setProgress(30);
-    let parsedData = await data.json();
-    props.setProgress(70);
-    setarticles(parsedData.articles);
-    settotalResults(parsedData.totalResults);
-    setloading(false);
-    props.setProgress(100);
+      props.setProgress(100);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setloading(false);
+    }
   };
 
   useEffect(() => {
